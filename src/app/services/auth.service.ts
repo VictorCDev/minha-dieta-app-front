@@ -7,7 +7,8 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
 
-   private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'http://localhost:8080/api/auth';
+  private usersApiUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) { }
 
@@ -49,5 +50,14 @@ export class AuthService {
    */
   isLoggedIn(): boolean {
     return this.getToken() !== null;
+  }
+
+  /**
+   * Envia os dados de um novo usuário para a API de registro.
+   * @param user - Objeto com username, email e password.
+   * @returns Um Observable com a resposta da API.
+   */
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.usersApiUrl}/register`, user);
   }
 }
