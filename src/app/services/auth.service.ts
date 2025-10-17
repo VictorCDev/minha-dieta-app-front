@@ -1,0 +1,53 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+
+   private apiUrl = 'http://localhost:8080/api/auth';
+
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Envia as credenciais para a API e armazena o token em caso de sucesso.
+   * @param credentials - Objeto com email e password.
+   * @returns Um Observable com a resposta da API (que deve conter o token).
+   */
+  login(credentials: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        // 'tap' nos permite executar um efeito colateral (salvar o token)
+        // sem modificar a resposta que passa pelo Observable.
+        if (response && response.token) {
+          localStorage.setItem('authToken', response.token);
+        }
+      })
+    );
+  }
+
+  /**
+   * Remove o token de autenticação, efetivamente fazendo logout.
+   */
+  logout(): void {
+    localStorage.removeItem('authToken');
+  }
+
+  /**
+   * Recupera o token de autenticação do localStorage.
+   * @returns O token JWT ou null se não existir.
+   */
+  getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
+
+  /**
+   * Verifica se o usuário está logado (se existe um token).
+   * @returns true se houver um token, false caso contrário.
+   */
+  isLoggedIn(): boolean {
+    return this.getToken() !== null;
+  }
+}

@@ -1,24 +1,44 @@
 // src/app/pages/login/login.component.ts
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // <-- Adicione esta importação para standalone components
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  // Se estiver usando standalone components, adicione imports aqui:
   standalone: true,
-  imports: [FormsModule], // Adicione FormsModule para usar [(ngModel)]
+  imports: [CommonModule, FormsModule], 
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'] // Use styleUrls para a versão moderna
+  styleUrls: ['./login.component.scss'] 
 })
 export class LoginComponent {
-  email!: string; // Usamos '!' para dizer ao TypeScript que esta variável será inicializada
+  email!: string; 
   password!: string;
+  errorMessage: string | null = null;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   onSubmit(): void {
-    console.log('Formulário de Login Enviado!', this.email, this.password);
-    // Aqui no futuro faremos a chamada para o nosso serviço de autenticação
-    // Por enquanto, apenas exibimos no console.
+    this.errorMessage = null; 
+
+    const credentials = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        console.log('Login bem-sucedido!', response);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Falha no login', err);
+        this.errorMessage = 'E-mail ou senha inválidos. Tente novamente.';
+      }
+    });
   }
 }
