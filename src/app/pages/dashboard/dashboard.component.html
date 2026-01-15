@@ -1,5 +1,35 @@
-<div class="dashboard-container">
-    <h1>Bem-vindo ao seu Dashboard!</h1>
-    <p>Esta página só pode ser acessada por usuários autenticados.</p>
-    <button (click)="logout()">Sair (Logout)</button>
+<div class="flex h-screen">
+
+    <div class="w-15rem surface-card shadow-2 flex flex-column h-full">
+        
+        <div class="flex align-items-center justify-content-center p-4 border-bottom-1 surface-border">
+            <h2 class="text-xl font-bold text-primary m-0">Minha Dieta</h2>
+        </div>
+
+        <div class="flex-1 overflow-y-auto">
+            <p-menu [model]="items" styleClass="w-full border-none"></p-menu>
+        </div>
+
+        <div class="p-3 border-top-1 surface-border">
+            <div class="flex align-items-center gap-2">
+                <p-avatar icon="pi pi-user" shape="circle" styleClass="bg-primary text-white"></p-avatar>
+                <span class="font-bold text-700">{{ username }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 flex flex-column surface-ground">
+        
+        <div class="p-4">
+            <h1 class="text-3xl font-bold text-900 m-0">Bom dia, {{ username }}!</h1>
+            <p class="text-500 m-0 mt-2">Vamos manter o foco hoje?</p>
+        </div>
+
+        <div class="p-4 flex-1 overflow-y-auto">
+            <div class="surface-card p-4 shadow-1 border-round">
+                 <p>Aqui entrarão os cards de macros em breve...</p>
+             </div>
+        </div>
+    </div>
+
 </div>
