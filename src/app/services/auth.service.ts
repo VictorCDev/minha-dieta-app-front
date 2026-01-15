@@ -7,6 +7,11 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
 
+  //private baseUrl = '';
+
+  //private apiUrl = `${this.baseUrl}/api/auth`;
+  //private usersApiUrl = `${this.baseUrl}/api/users`;
+
   private apiUrl = 'http://localhost:8080/api/auth';
   private usersApiUrl = 'http://localhost:8080/api/users';
 
@@ -20,10 +25,8 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        // 'tap' nos permite executar um efeito colateral (salvar o token)
-        // sem modificar a resposta que passa pelo Observable.
-        if (response && response.token) {
-          localStorage.setItem('authToken', response.token);
+        if (response && response.jwtToken) {
+          localStorage.setItem('authToken', response.jwtToken);
         }
       })
     );
