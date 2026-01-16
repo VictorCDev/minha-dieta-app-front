@@ -7,13 +7,13 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
 
-  //private baseUrl = '';
+  private baseUrl = '	https://putrefiable-beachy-birgit.ngrok-free.dev';
 
-  //private apiUrl = `${this.baseUrl}/api/auth`;
-  //private usersApiUrl = `${this.baseUrl}/api/users`;
+  private apiUrl = `${this.baseUrl}/api/auth`;
+  private usersApiUrl = `${this.baseUrl}/api/users`;
 
-  private apiUrl = 'http://localhost:8080/api/auth';
-  private usersApiUrl = 'http://localhost:8080/api/users';
+  // private apiUrl = 'http://localhost:8080/api/auth';
+  // private usersApiUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) { }
 

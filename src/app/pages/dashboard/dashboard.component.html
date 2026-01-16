@@ -1,7 +1,7 @@
 <div class="flex h-screen">
 
     <div class="w-15rem surface-card shadow-2 flex flex-column h-full">
-        
+
         <div class="flex align-items-center justify-content-center p-4 border-bottom-1 surface-border">
             <h2 class="text-xl font-bold text-primary m-0">Minha Dieta</h2>
         </div>
@@ -19,17 +19,162 @@
     </div>
 
     <div class="flex-1 flex flex-column surface-ground">
-        
+
         <div class="p-4">
             <h1 class="text-3xl font-bold text-900 m-0">Bom dia, {{ username }}!</h1>
             <p class="text-500 m-0 mt-2">Vamos manter o foco hoje?</p>
         </div>
 
         <div class="p-4 flex-1 overflow-y-auto">
-            <div class="surface-card p-4 shadow-1 border-round">
-                 <p>Aqui entrarão os cards de macros em breve...</p>
-             </div>
+
+            <div class="grid">
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="surface-card shadow-1 p-3 border-round">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-500 font-medium mb-3">Calorias</span>
+                                <div class="text-900 font-medium text-xl">
+                                    {{ dailySummary.calories.current }} / {{ dailySummary.calories.target }}
+                                </div>
+                            </div>
+                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                style="width:2.5rem;height:2.5rem">
+                                <i class="pi pi-bolt text-orange-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <p-progressBar [value]="dailySummary.calories.percentage" [showValue]="false" styleClass="mt-2"
+                            [style]="{'height': '10px'}"></p-progressBar>
+                        <span class="text-500 text-sm mt-2 block">{{ dailySummary.calories.percentage }}% da meta</span>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="surface-card shadow-1 p-3 border-round">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-500 font-medium mb-3">Proteínas</span>
+                                <div class="text-900 font-medium text-xl">{{ dailySummary.protein.current }}g</div>
+                            </div>
+                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                style="width:2.5rem;height:2.5rem">
+                                <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <p-progressBar [value]="dailySummary.protein.percentage" [showValue]="false" styleClass="mt-2"
+                            [style]="{'height': '6px'}"></p-progressBar>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="surface-card shadow-1 p-3 border-round">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-500 font-medium mb-3">Carboidratos</span>
+                                <div class="text-900 font-medium text-xl">{{ dailySummary.carbs.current }}g</div>
+                            </div>
+                            <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+                                style="width:2.5rem;height:2.5rem">
+                                <i class="pi pi-filter text-green-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <p-progressBar [value]="dailySummary.carbs.percentage" [showValue]="false" color="#22C55E"
+                            styleClass="mt-2" [style]="{'height': '6px'}"></p-progressBar>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="surface-card shadow-1 p-3 border-round">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-500 font-medium mb-3">Gorduras</span>
+                                <div class="text-900 font-medium text-xl">{{ dailySummary.fat.current }}g</div>
+                            </div>
+                            <div class="flex align-items-center justify-content-center bg-yellow-100 border-round"
+                                style="width:2.5rem;height:2.5rem">
+                                <i class="pi pi-circle-fill text-yellow-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <p-progressBar [value]="dailySummary.fat.percentage" [showValue]="false" color="#EAB308"
+                            styleClass="mt-2" [style]="{'height': '6px'}"></p-progressBar>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-5">
+                <h3 class="text-xl font-bold text-800">Próximas Refeições</h3>
+            </div>
+
         </div>
+
+
+        <div class="grid mt-4">
+
+            <div class="col-12 lg:col-8">
+                <div class="surface-card shadow-1 border-round p-4 h-full">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h3 class="text-xl font-bold text-900 m-0">Diário Alimentar</h3>
+                        <span class="text-500 text-sm">Hoje</span>
+                    </div>
+
+                    <div class="flex flex-column gap-3">
+
+                        <div *ngFor="let meal of meals" class="border-bottom-1 surface-border pb-3">
+
+                            <div class="flex align-items-center justify-content-between mb-2">
+                                <div class="flex align-items-center gap-2">
+                                    <span class="font-bold text-700">{{ meal.name }}</span>
+                                    <span class="text-500 text-sm" *ngIf="meal.items.length === 0">(Pendente)</span>
+                                </div>
+                                <span class="text-primary font-bold">{{ meal.calories }} kcal</span>
+                            </div>
+
+                            <div *ngIf="meal.items.length > 0" class="pl-2">
+                                <span class="text-600 text-sm block" *ngFor="let item of meal.items">
+                                    • {{ item }}
+                                </span>
+                            </div>
+
+                            <div *ngIf="meal.items.length === 0" class="mt-2">
+                                <p-button label="Adicionar itens" icon="pi pi-plus" [text]="true"
+                                    size="small"></p-button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-4">
+
+                <div class="surface-card shadow-1 border-round p-4 mb-3">
+                    <h3 class="text-xl font-bold text-900 mb-4">Ações Rápidas</h3>
+
+                    <div class="flex flex-column gap-3">
+                        <p-button label="Registrar Alimento" icon="pi pi-plus" styleClass="w-full"
+                            (onClick)="registerFood()"></p-button>
+                        <p-button label="Registrar Água" icon="pi pi-filter" severity="info"
+                            styleClass="w-full"></p-button>
+                        <p-button label="Nova Medição de Peso" icon="pi pi-chart-line" severity="help" [outlined]="true"
+                            styleClass="w-full"></p-button>
+                    </div>
+                </div>
+
+                <div class="surface-card shadow-1 border-round p-4 text-center">
+                    <span class="text-600 font-medium mb-2 block">Água hoje</span>
+                    <div class="flex align-items-center justify-content-center gap-2 mb-3">
+                        <i class="pi pi-filter-fill text-blue-500 text-3xl"></i>
+                        <span class="text-3xl font-bold text-900">1.2L</span>
+                    </div>
+                    <p-progressBar [value]="60" [showValue]="false" [style]="{'height': '8px'}"></p-progressBar>
+                    <span class="text-500 text-xs mt-2 block">Meta: 2.0L</span>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
