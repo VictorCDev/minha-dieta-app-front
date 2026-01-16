@@ -1,0 +1,45 @@
+<div class="flex flex-column gap-4 p-2">
+
+    <div class="field">
+        <p-dropdown [options]="mealTypes" [(ngModel)]="selectedMeal" optionLabel="name" placeholder="Qual refeição?"
+            [style]="{'width':'100%'}" appendTo="body">
+        </p-dropdown>
+    </div>
+
+    <div class="field">
+        <span class="p-float-label">
+            <input pInputText id="foodName" [(ngModel)]="foodName" class="w-full" />
+            <label for="foodName">O que você comeu?</label>
+        </span>
+    </div>
+
+    <div class="formgrid grid">
+        <div class="field col-6">
+            <label for="calories" class="block text-sm font-medium mb-2">Calorias (kcal)</label>
+            <p-inputNumber id="calories" [(ngModel)]="calories" suffix=" kcal" class="w-full"></p-inputNumber>
+        </div>
+        <div class="field col-6">
+            <label for="protein" class="block text-sm font-medium mb-2">Proteína (g)</label>
+            <p-inputNumber id="protein" [(ngModel)]="protein" suffix=" g" class="w-full"></p-inputNumber>
+        </div>
+    </div>
+
+    <div class="formgrid grid">
+        <div class="field col-6">
+            <label for="carbs" class="block text-sm font-medium mb-2">Carboidratos (g)</label>
+            <p-inputNumber id="carbs" [(ngModel)]="carbs" suffix=" g" class="w-full"></p-inputNumber>
+        </div>
+        <div class="field col-6">
+            <label for="fat" class="block text-sm font-medium mb-2">Gorduras (g)</label>
+            <p-inputNumber id="fat" [(ngModel)]="fat" suffix=" g" class="w-full"></p-inputNumber>
+        </div>
+    </div>
+
+    <div class="flex justify-content-end gap-2 mt-3">
+        <p-button label="Cancelar" icon="pi pi-times" [outlined]="true" severity="secondary"
+            (onClick)="cancel()"></p-button>
+
+        <p-button label="Salvar Registro" icon="pi pi-check" (onClick)="save()"></p-button>
+    </div>
+
+</div>
